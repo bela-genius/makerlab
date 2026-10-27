@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1F2D3D">
+  <meta name="description" content="MakerLab EIA: reservas, equipos y mantenimiento de los laboratorios de fabricación digital de la Universidad EIA.">
+  <title>MakerLab EIA</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <header class="barra">
+    <div class="barra-fila">
+      <div class="marca">
+        <img src="/favicon.svg" alt="" width="28" height="28">
+        <div>
+          <div class="marca-nombre">MakerLab EIA</div>
+          <div class="marca-sub">Laboratorios de fabricación</div>
+        </div>
+      </div>
+      <div id="estado-datos" class="estado-datos" role="status">Conectando…</div>
+    </div>
+    <nav class="tabs" id="tabs" aria-label="Secciones"></nav>
+  </header>
+
+  <div id="avisos" class="avisos" aria-live="polite"></div>
+  <main id="vista" class="vista" tabindex="-1"></main>
+
+  <footer class="pie">
+    <div id="pie-fecha" class="pie-fecha"></div>
+    <button type="button" id="btn-demo" class="boton boton-secundario boton-pequeno">Modo demostración</button>
+    <p class="nota">Proyecto de Programación Orientada a Objetos, Universidad EIA. Los datos se guardan en PostgreSQL.</p>
+  </footer>
+
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+
+  <dialog id="dialogo" class="dialogo"></dialog>
+
+  <script src="/app.js"></script>
+</body>
+</html>

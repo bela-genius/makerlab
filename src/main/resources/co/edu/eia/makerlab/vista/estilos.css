@@ -1,0 +1,217 @@
+/* Paleta
+   tinta     #1F2D3D  barra lateral y textos fuertes
+   fondo     #EEF2F5  fondo general
+   superficie #FFFFFF paneles
+   acento    #12857A  botones y selección (color de filamento)
+   linea     #D5DCE3  bordes
+*/
+.root {
+    -fx-font-family: "Segoe UI", "Helvetica Neue", "Arial";
+    -fx-font-size: 13px;
+    -fx-background-color: #EEF2F5;
+    -fx-text-fill: #1F2D3D;
+    -fx-accent: #12857A;
+    -fx-focus-color: #12857A;
+    -fx-faint-focus-color: #12857A22;
+}
+
+/* ---------- Barra lateral ---------- */
+.lateral {
+    -fx-background-color: #1F2D3D;
+    -fx-padding: 24 14 18 14;
+    -fx-spacing: 4;
+    -fx-pref-width: 210;
+}
+.marca {
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+.marca-sub {
+    -fx-text-fill: #9FB0C2;
+    -fx-font-size: 12px;
+    -fx-padding: 0 0 18 0;
+}
+.nav {
+    -fx-background-color: transparent;
+    -fx-text-fill: #C9D4DF;
+    -fx-font-size: 14px;
+    -fx-alignment: center-left;
+    -fx-padding: 9 12 9 12;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+.nav:hover {
+    -fx-background-color: #2B3C50;
+    -fx-text-fill: white;
+}
+.nav-activa {
+    -fx-background-color: #12857A;
+    -fx-text-fill: white;
+}
+.nav-activa:hover {
+    -fx-background-color: #12857A;
+}
+.estado-datos {
+    -fx-text-fill: #9FB0C2;
+    -fx-font-size: 11px;
+    -fx-wrap-text: true;
+}
+
+/* ---------- Contenido ---------- */
+.vista {
+    -fx-padding: 26 28 26 28;
+}
+.titulo {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1F2D3D;
+}
+.descripcion {
+    -fx-text-fill: #5B6B7C;
+    -fx-font-size: 13px;
+}
+.panel {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-color: #D5DCE3;
+    -fx-border-radius: 8;
+    -fx-padding: 16;
+}
+.subtitulo {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1F2D3D;
+}
+.etiqueta {
+    -fx-text-fill: #5B6B7C;
+    -fx-font-size: 12px;
+}
+.dato-grande {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1F2D3D;
+}
+.nota {
+    -fx-text-fill: #5B6B7C;
+    -fx-font-size: 12px;
+    -fx-wrap-text: true;
+}
+
+/* ---------- Controles ---------- */
+.text-field, .combo-box, .date-picker {
+    -fx-background-color: white;
+    -fx-border-color: #C9D2DC;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-pref-height: 32;
+}
+.text-field:focused, .combo-box:focused, .date-picker:focused {
+    -fx-border-color: #12857A;
+}
+.combo-box, .date-picker {
+    -fx-max-width: infinity;
+}
+.boton-principal {
+    -fx-background-color: #12857A;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 8 14 8 14;
+    -fx-cursor: hand;
+}
+.boton-principal:hover {
+    -fx-background-color: #0E6F66;
+}
+.boton-secundario {
+    -fx-background-color: white;
+    -fx-text-fill: #1F2D3D;
+    -fx-border-color: #C9D2DC;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 7 12 7 12;
+    -fx-cursor: hand;
+}
+.boton-secundario:hover {
+    -fx-border-color: #12857A;
+    -fx-text-fill: #12857A;
+}
+
+/* ---------- Tablas y listas ---------- */
+.table-view, .list-view {
+    -fx-background-color: white;
+    -fx-border-color: #D5DCE3;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+}
+.table-view .column-header-background {
+    -fx-background-color: #F6F8FA;
+    -fx-background-radius: 6 6 0 0;
+}
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #D5DCE3 transparent;
+    -fx-padding: 6 4 6 4;
+}
+.table-view .column-header .label {
+    -fx-text-fill: #5B6B7C;
+    -fx-font-weight: bold;
+    -fx-alignment: center-left;
+}
+.table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent #EEF2F5 transparent;
+    -fx-cell-size: 34;
+}
+.table-row-cell:selected {
+    -fx-background-color: #E3F3F1;
+}
+.table-row-cell:selected .text {
+    -fx-fill: #1F2D3D;
+}
+.list-cell {
+    -fx-padding: 7 8 7 8;
+}
+.list-cell:filled:selected {
+    -fx-background-color: #E3F3F1;
+    -fx-text-fill: #1F2D3D;
+}
+
+/* ---------- Estado de equipos ---------- */
+.pildora {
+    -fx-background-radius: 10;
+    -fx-padding: 2 9 2 9;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+.pildora-operativo         { -fx-background-color: #E3F2E5; -fx-text-fill: #2E7D32; }
+.pildora-en-mantenimiento  { -fx-background-color: #FCEFD9; -fx-text-fill: #9A5B00; }
+.pildora-fuera-de-servicio { -fx-background-color: #FBE3E3; -fx-text-fill: #B42323; }
+.pildora-inactivo          { -fx-background-color: #ECEEF1; -fx-text-fill: #5B6B7C; }
+
+/* ---------- Gráfico ---------- */
+.chart-bar {
+    -fx-bar-fill: #12857A;
+}
+.chart-plot-background {
+    -fx-background-color: white;
+}
+.chart-vertical-grid-lines, .chart-horizontal-grid-lines {
+    -fx-stroke: #EEF2F5;
+}
+
+/* ---------- Ajustes ---------- */
+.scroll-pane, .scroll-pane > .viewport {
+    -fx-background-color: #EEF2F5;
+}
+.combo-box .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #1F2D3D;
+}
+.table-row-cell .table-cell {
+    -fx-border-color: transparent;
+}
+.table-row-cell:empty {
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+}

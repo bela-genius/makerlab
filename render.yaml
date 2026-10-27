@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: makerlab-eia
+    runtime: docker
+    plan: free
+    region: virginia        # misma región que la base en Neon (AWS us-east)
+    healthCheckPath: /api/salud
+    envVars:
+      - key: DATABASE_URL   # se pega en el panel de Render; nunca en el repositorio
+        sync: false
+      - key: DEMO_TOKEN
+        sync: false

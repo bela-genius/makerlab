@@ -1,0 +1,9 @@
+.env
+*.env
+!.env.example
+.git
+target
+docs
+scripts
+*.md
+*.log
