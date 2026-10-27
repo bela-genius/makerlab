@@ -228,6 +228,8 @@ input[type="checkbox"] { width: 22px; min-height: 22px; height: 22px; accent-col
 .dialogo-error { color: var(--rojo); font-weight: 600; font-size: 14px; min-height: 0; }
 
 /* ---------- Indicadores ---------- */
+.grafico { width: 100%; height: auto; display: block; }
+.grafico-eje { font-size: 12px; fill: var(--tinta-suave); }
 .barras { display: grid; gap: 12px; }
 .barra-dato { display: grid; gap: 4px; }
 .barra-dato-cab { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; }

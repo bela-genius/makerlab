@@ -541,16 +541,50 @@
         } })));
   }
 
+  /* Gráfico de barras verticales, igual al BarChart de la versión JavaFX (eje Y "Horas de uso"). */
+  function graficoBarras(datos) {
+    var NS = 'http://www.w3.org/2000/svg';
+    var el = function (tag, attrs, texto) {
+      var e = document.createElementNS(NS, tag);
+      Object.keys(attrs || {}).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+      if (texto !== undefined) { e.textContent = texto; }
+      return e;
+    };
+    var W = 520, H = 260, izq = 58, der = 12, arr = 12, aba = 34;
+    var ancho = W - izq - der, alto = H - arr - aba;
+    var max = Math.max.apply(null, datos.map(function (x) { return x.horas; }).concat([0]));
+    var paso = 1;
+    if (max > 0) {
+      var bruto = max / 5, pot = Math.pow(10, Math.floor(Math.log10(bruto))), f = bruto / pot;
+      paso = (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * pot;
+    }
+    var tope = Math.max(paso, Math.ceil(max / paso) * paso);
+    var y = function (v) { return arr + alto - v / tope * alto; };
+
+    var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'grafico', role: 'img', 'aria-label': 'Horas de uso por tipo de equipo' });
+    svg.append(el('rect', { x: izq, y: arr, width: ancho, height: alto, fill: '#fff' }));
+    for (var v = 0; v <= tope + paso / 1000; v += paso) {
+      svg.append(el('line', { x1: izq, x2: izq + ancho, y1: y(v), y2: y(v), stroke: '#EEF2F5' }));
+      svg.append(el('text', { x: izq - 8, y: y(v) + 4, 'text-anchor': 'end', class: 'grafico-eje' }, String(Math.round(v * 100) / 100)));
+    }
+    var n = Math.max(datos.length, 1), celda = ancho / n, grosor = Math.min(celda * 0.45, 90);
+    datos.forEach(function (x, i) {
+      var cx = izq + celda * i + celda / 2, top = y(x.horas);
+      svg.append(el('line', { x1: cx, x2: cx, y1: arr, y2: arr + alto, stroke: '#EEF2F5' }));
+      var barra = el('rect', { x: cx - grosor / 2, y: top, width: grosor, height: arr + alto - top, fill: '#12857A' });
+      barra.append(el('title', {}, x.nombre + ': ' + x.horas + ' h'));
+      svg.append(barra);
+      svg.append(el('text', { x: cx, y: arr + alto + 20, 'text-anchor': 'middle', class: 'grafico-eje' }, x.nombre));
+    });
+    svg.append(el('line', { x1: izq, x2: izq, y1: arr, y2: arr + alto, stroke: '#9AA7B4' }));
+    svg.append(el('line', { x1: izq, x2: izq + ancho, y1: arr + alto, y2: arr + alto, stroke: '#9AA7B4' }));
+    svg.append(el('text', { transform: 'translate(14 ' + (arr + alto / 2) + ') rotate(-90)', 'text-anchor': 'middle', class: 'grafico-eje' }, 'Horas de uso'));
+    return svg;
+  }
+
   function vistaIndicadores() {
     return obtener('/api/indicadores').then(function (d) {
-      var max = Math.max.apply(null, d.horasPorTipo.map(function (x) { return x.horas; }).concat([1]));
-      var barras = h('div', { class: 'barras' }, d.horasPorTipo.map(function (x) {
-        var relleno = h('div', { class: 'barra-relleno' });
-        relleno.style.width = (x.horas / max * 100) + '%';
-        return h('div', { class: 'barra-dato' },
-          h('div', { class: 'barra-dato-cab' }, h('span', { text: x.nombre }), h('strong', { text: x.horas + ' h' })),
-          h('div', { class: 'barra-pista', role: 'img', 'aria-label': x.nombre + ': ' + x.horas + ' horas' }, relleno));
-      }));
+      var barras = graficoBarras(d.horasPorTipo);
       var carga = d.cargaMantenimiento.length ? d.cargaMantenimiento.map(function (c) { return h('div', { text: c.tecnico + ': ' + c.cantidad }); }) : [vacio('Ninguno abierto')];
       var resumen = h('div', { class: 'pila' },
         h('div', { class: 'cifras' },
