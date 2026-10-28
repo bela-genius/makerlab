@@ -3,6 +3,7 @@ package co.edu.eia.makerlab.web;
 import java.nio.file.Path;
 import java.sql.SQLException;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -46,7 +47,10 @@ public class AlmacenMakerLab {
         T ejecutar() throws MakerLabException;
     }
 
-    private final ReentrantReadWriteLock candado = new ReentrantReadWriteLock(true);
+    /** Fecha fija del sistema para la versión web (la demostración da siempre el mismo resultado). */
+    private static final LocalDate FECHA_SISTEMA = LocalDate.of(2026, 10, 28);
+
+    private final ReentrantReadWriteLock candado =new ReentrantReadWriteLock(true);
     private final CatalogoMakerLab catalogo = CatalogoMakerLab.getInstancia();
     private final RegistroService registro = new RegistroService();
     private final ReservaService reservas = new ReservaService();
@@ -102,6 +106,7 @@ public class AlmacenMakerLab {
             ConfiguracionEntorno.Resultado config = ConfiguracionEntorno.resolver(System.getenv(), Path.of(".env"));
             if (config == null) {
                 DatosDemo.cargarDatosBase();
+                catalogo.setFechaActual(FECHA_SISTEMA);
                 mensajeArranque = "Sin base de datos configurada (DATABASE_URL). Los datos están en memoria y se "
                         + "pierden al reiniciar.";
                 return mensajeArranque;
@@ -120,6 +125,7 @@ public class AlmacenMakerLab {
             if (!responde) {
                 if ("true".equalsIgnoreCase(System.getenv("ALLOW_MEMORY_FALLBACK"))) {
                     DatosDemo.cargarDatosBase();
+                    catalogo.setFechaActual(FECHA_SISTEMA);
                     mensajeArranque = "No se pudo conectar a " + config.getOrigen() + ". Se trabaja en memoria.";
                     return mensajeArranque;
                 }
@@ -131,12 +137,13 @@ public class AlmacenMakerLab {
             persistencia = base;
             if (base.estaVacia()) {
                 DatosDemo.cargarDatosBase();
+                catalogo.setFechaActual(FECHA_SISTEMA);
                 base.guardar(catalogo);
                 mensajeArranque = esquema + " Se guardaron los datos de demostración en PostgreSQL ("
                         + config.getOrigen() + ").";
             } else {
                 base.cargar(catalogo);
-                catalogo.setFechaActual(DatosDemo.HOY);
+                catalogo.setFechaActual(FECHA_SISTEMA);
                 mensajeArranque = "Datos cargados desde PostgreSQL (" + config.getOrigen() + ").";
             }
             return mensajeArranque;
@@ -250,7 +257,7 @@ public class AlmacenMakerLab {
         try {
             catalogo.reiniciar();
             persistencia.cargar(catalogo);
-            catalogo.setFechaActual(DatosDemo.HOY);
+            catalogo.setFechaActual(FECHA_SISTEMA);
             catalogo.setEstrategiaEspera(estrategia);
             desincronizado = false;
         } catch (SQLException | MakerLabException | RuntimeException e) {
@@ -285,6 +292,7 @@ public class AlmacenMakerLab {
                 if (escenario) {
                     DatosDemo.ejecutarEscenario();
                 }
+                catalogo.setFechaActual(FECHA_SISTEMA);
             } catch (MakerLabException | RuntimeException e) {
                 resincronizar();
                 throw e;
