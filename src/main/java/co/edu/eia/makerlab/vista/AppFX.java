@@ -27,6 +27,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
@@ -55,6 +56,8 @@ public class AppFX extends Application {
     @Override
     public void start(Stage ventana) {
         Application.setUserAgentStylesheet(new PrimerLight().getUserAgentStylesheet());
+        // Tipografía Inter, la misma de la plantilla KickstartFX.
+        Font.loadFont(getClass().getResourceAsStream("Inter-Regular.ttf"), 13);
         try {
             mensajeArranque = Arranque.iniciar();
         } catch (MakerLabException e) {

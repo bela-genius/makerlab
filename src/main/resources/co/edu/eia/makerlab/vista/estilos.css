@@ -1,17 +1,9 @@
-/* Estilo basado en la plantilla KickstartFX: tema AtlantaFX (PrimerLight) con el
-   color de acento de MakerLab. Los controles (campos, tablas, listas, botones)
-   usan el aspecto del tema; aquí solo se definen la paleta y las clases propias.
-
-   acento     #12857A  color de filamento
-   tinta      #1F2D3D  textos fuertes
-*/
+/* Estilo de la plantilla KickstartFX: tema AtlantaFX (PrimerLight) con sus colores
+   originales y la tipografía Inter. Los controles (campos, tablas, listas, botones)
+   usan el aspecto del tema; aquí solo se definen las clases propias. */
 .root {
-    -fx-font-family: "Segoe UI", "Helvetica Neue", "Arial";
+    -fx-font-family: "Inter", "Segoe UI", "Arial";
     -fx-font-size: 13px;
-    -color-accent-fg: #12857A;
-    -color-accent-emphasis: #12857A;
-    -color-accent-muted: #12857A88;
-    -color-accent-subtle: #E2F3F1;
 }
 
 /* ---------- Barra lateral de íconos ---------- */
@@ -128,7 +120,7 @@
 
 /* ---------- Gráfico ---------- */
 .chart-bar {
-    -fx-bar-fill: #12857A;
+    -fx-bar-fill: -color-accent-emphasis;
 }
 .chart-plot-background {
     -fx-background-color: -color-bg-default;
