@@ -1,61 +1,61 @@
-/* Paleta
-   tinta     #1F2D3D  barra lateral y textos fuertes
-   fondo     #EEF2F5  fondo general
-   superficie #FFFFFF paneles
-   acento    #12857A  botones y selección (color de filamento)
-   linea     #D5DCE3  bordes
+/* Estilo basado en la plantilla KickstartFX: tema AtlantaFX (PrimerLight) con el
+   color de acento de MakerLab. Los controles (campos, tablas, listas, botones)
+   usan el aspecto del tema; aquí solo se definen la paleta y las clases propias.
+
+   acento     #12857A  color de filamento
+   tinta      #1F2D3D  textos fuertes
 */
 .root {
     -fx-font-family: "Segoe UI", "Helvetica Neue", "Arial";
     -fx-font-size: 13px;
-    -fx-background-color: #EEF2F5;
-    -fx-text-fill: #1F2D3D;
-    -fx-accent: #12857A;
-    -fx-focus-color: #12857A;
-    -fx-faint-focus-color: #12857A22;
+    -color-accent-fg: #12857A;
+    -color-accent-emphasis: #12857A;
+    -color-accent-muted: #12857A88;
+    -color-accent-subtle: #E2F3F1;
 }
 
-/* ---------- Barra lateral ---------- */
+/* ---------- Barra lateral de íconos ---------- */
 .lateral {
-    -fx-background-color: #1F2D3D;
-    -fx-padding: 24 14 18 14;
-    -fx-spacing: 4;
-    -fx-pref-width: 210;
+    -fx-background-color: derive(-color-bg-default, -1%);
+    -fx-border-color: -color-border-default;
+    -fx-border-width: 0 1 0 0;
+    -fx-pref-width: 92;
+    -fx-min-width: 92;
+    -fx-alignment: top-center;
+    -fx-padding: 14 0 14 0;
 }
-.marca {
-    -fx-text-fill: white;
-    -fx-font-size: 20px;
-    -fx-font-weight: bold;
+.lateral-logo {
+    -fx-icon-color: -color-accent-emphasis;
 }
-.marca-sub {
-    -fx-text-fill: #9FB0C2;
-    -fx-font-size: 12px;
-    -fx-padding: 0 0 18 0;
-}
-.nav {
+.lateral .nav {
     -fx-background-color: transparent;
-    -fx-text-fill: #C9D4DF;
-    -fx-font-size: 14px;
-    -fx-alignment: center-left;
-    -fx-padding: 9 12 9 12;
-    -fx-background-radius: 6;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-text-fill: -color-fg-muted;
+    -fx-font-size: 11px;
+    -fx-padding: 14 4 12 4;
     -fx-cursor: hand;
 }
-.nav:hover {
-    -fx-background-color: #2B3C50;
-    -fx-text-fill: white;
+.lateral .nav .ikonli-font-icon {
+    -fx-icon-color: -color-fg-muted;
 }
-.nav-activa {
-    -fx-background-color: #12857A;
-    -fx-text-fill: white;
+.lateral .nav:hover {
+    -fx-background-color: -color-bg-subtle;
 }
-.nav-activa:hover {
-    -fx-background-color: #12857A;
+.lateral .nav-activa, .lateral .nav-activa:hover {
+    -fx-background-color: -color-accent-subtle;
+    -fx-text-fill: -color-accent-fg;
+    -fx-border-color: -color-accent-emphasis;
+    -fx-border-width: 0 0 0 3;
 }
-.estado-datos {
-    -fx-text-fill: #9FB0C2;
-    -fx-font-size: 11px;
-    -fx-wrap-text: true;
+.lateral .nav-activa .ikonli-font-icon {
+    -fx-icon-color: -color-accent-fg;
+}
+.estado-ok {
+    -fx-icon-color: -color-success-fg;
+}
+.estado-sin-base {
+    -fx-icon-color: -color-warning-fg;
 }
 
 /* ---------- Contenido ---------- */
@@ -65,116 +65,53 @@
 .titulo {
     -fx-font-size: 24px;
     -fx-font-weight: bold;
-    -fx-text-fill: #1F2D3D;
+    -fx-text-fill: -color-fg-default;
 }
 .descripcion {
-    -fx-text-fill: #5B6B7C;
+    -fx-text-fill: -color-fg-muted;
     -fx-font-size: 13px;
 }
 .panel {
-    -fx-background-color: white;
+    -fx-background-color: -color-bg-default;
     -fx-background-radius: 8;
-    -fx-border-color: #D5DCE3;
+    -fx-border-color: -color-border-default;
     -fx-border-radius: 8;
     -fx-padding: 16;
 }
 .subtitulo {
     -fx-font-size: 15px;
     -fx-font-weight: bold;
-    -fx-text-fill: #1F2D3D;
+    -fx-text-fill: -color-fg-default;
 }
 .etiqueta {
-    -fx-text-fill: #5B6B7C;
+    -fx-text-fill: -color-fg-muted;
     -fx-font-size: 12px;
 }
 .dato-grande {
     -fx-font-size: 22px;
     -fx-font-weight: bold;
-    -fx-text-fill: #1F2D3D;
+    -fx-text-fill: -color-fg-default;
 }
 .nota {
-    -fx-text-fill: #5B6B7C;
+    -fx-text-fill: -color-fg-muted;
     -fx-font-size: 12px;
     -fx-wrap-text: true;
 }
 
 /* ---------- Controles ---------- */
-.text-field, .combo-box, .date-picker {
-    -fx-background-color: white;
-    -fx-border-color: #C9D2DC;
-    -fx-border-radius: 6;
-    -fx-background-radius: 6;
-    -fx-pref-height: 32;
-}
-.text-field:focused, .combo-box:focused, .date-picker:focused {
-    -fx-border-color: #12857A;
-}
 .combo-box, .date-picker {
     -fx-max-width: infinity;
 }
 .boton-principal {
-    -fx-background-color: #12857A;
+    -fx-background-color: -color-accent-emphasis;
     -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-background-radius: 6;
-    -fx-padding: 8 14 8 14;
-    -fx-cursor: hand;
 }
 .boton-principal:hover {
-    -fx-background-color: #0E6F66;
+    -fx-background-color: derive(-color-accent-emphasis, -12%);
 }
-.boton-secundario {
-    -fx-background-color: white;
-    -fx-text-fill: #1F2D3D;
-    -fx-border-color: #C9D2DC;
-    -fx-border-radius: 6;
-    -fx-background-radius: 6;
-    -fx-padding: 7 12 7 12;
-    -fx-cursor: hand;
-}
-.boton-secundario:hover {
-    -fx-border-color: #12857A;
-    -fx-text-fill: #12857A;
-}
-
-/* ---------- Tablas y listas ---------- */
-.table-view, .list-view {
-    -fx-background-color: white;
-    -fx-border-color: #D5DCE3;
-    -fx-border-radius: 6;
-    -fx-background-radius: 6;
-}
-.table-view .column-header-background {
-    -fx-background-color: #F6F8FA;
-    -fx-background-radius: 6 6 0 0;
-}
-.table-view .column-header {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent transparent #D5DCE3 transparent;
-    -fx-padding: 6 4 6 4;
-}
-.table-view .column-header .label {
-    -fx-text-fill: #5B6B7C;
-    -fx-font-weight: bold;
-    -fx-alignment: center-left;
-}
-.table-row-cell {
-    -fx-background-color: white;
-    -fx-border-color: transparent transparent #EEF2F5 transparent;
-    -fx-cell-size: 34;
-}
-.table-row-cell:selected {
-    -fx-background-color: #E3F3F1;
-}
-.table-row-cell:selected .text {
-    -fx-fill: #1F2D3D;
-}
-.list-cell {
-    -fx-padding: 7 8 7 8;
-}
-.list-cell:filled:selected {
-    -fx-background-color: #E3F3F1;
-    -fx-text-fill: #1F2D3D;
+.boton-principal:pressed {
+    -fx-background-color: derive(-color-accent-emphasis, -20%);
 }
 
 /* ---------- Estado de equipos ---------- */
@@ -194,24 +131,13 @@
     -fx-bar-fill: #12857A;
 }
 .chart-plot-background {
-    -fx-background-color: white;
+    -fx-background-color: -color-bg-default;
 }
 .chart-vertical-grid-lines, .chart-horizontal-grid-lines {
-    -fx-stroke: #EEF2F5;
+    -fx-stroke: -color-border-subtle;
 }
 
 /* ---------- Ajustes ---------- */
 .scroll-pane, .scroll-pane > .viewport {
-    -fx-background-color: #EEF2F5;
-}
-.combo-box .list-cell {
-    -fx-background-color: transparent;
-    -fx-text-fill: #1F2D3D;
-}
-.table-row-cell .table-cell {
-    -fx-border-color: transparent;
-}
-.table-row-cell:empty {
-    -fx-background-color: white;
-    -fx-border-color: transparent;
+    -fx-background-color: -color-bg-subtle;
 }

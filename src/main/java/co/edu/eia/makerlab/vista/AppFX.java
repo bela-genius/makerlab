@@ -3,12 +3,24 @@ package co.edu.eia.makerlab.vista;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.kordamp.ikonli.Ikon;
+import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.materialdesign2.MaterialDesignA;
+import org.kordamp.ikonli.materialdesign2.MaterialDesignC;
+import org.kordamp.ikonli.materialdesign2.MaterialDesignD;
+import org.kordamp.ikonli.materialdesign2.MaterialDesignF;
+import org.kordamp.ikonli.materialdesign2.MaterialDesignH;
+import org.kordamp.ikonli.materialdesign2.MaterialDesignP;
+import org.kordamp.ikonli.materialdesign2.MaterialDesignW;
+
+import atlantafx.base.theme.PrimerLight;
 import co.edu.eia.makerlab.app.Arranque;
 import co.edu.eia.makerlab.excepcion.MakerLabException;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
@@ -18,12 +30,21 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
- * Ventana principal: barra lateral con las secciones y, a la derecha, la
- * sección elegida. Usa los mismos servicios que el menú de consola.
+ * Ventana principal: barra lateral de íconos con las secciones y, a la
+ * derecha, la sección elegida. Usa los mismos servicios que el menú de consola.
+ * El tema (AtlantaFX) y la barra lateral siguen el estilo de la plantilla KickstartFX.
  *
  * Para ejecutarla desde Eclipse se usa Lanzador (ver su comentario).
  */
 public class AppFX extends Application {
+
+    private static final Map<String, Ikon> ICONOS = Map.of(
+            "Inicio", MaterialDesignH.HOME_OUTLINE,
+            "Usuarios", MaterialDesignA.ACCOUNT_GROUP_OUTLINE,
+            "Equipos", MaterialDesignP.PRINTER_3D,
+            "Reservas", MaterialDesignC.CALENDAR_MONTH_OUTLINE,
+            "Mantenimiento", MaterialDesignW.WRENCH_OUTLINE,
+            "Indicadores", MaterialDesignC.CHART_BAR);
 
     private BorderPane raiz = new BorderPane();
     private ScrollPane contenido = new ScrollPane();
@@ -33,6 +54,7 @@ public class AppFX extends Application {
 
     @Override
     public void start(Stage ventana) {
+        Application.setUserAgentStylesheet(new PrimerLight().getUserAgentStylesheet());
         try {
             mensajeArranque = Arranque.iniciar();
         } catch (MakerLabException e) {
@@ -55,7 +77,7 @@ public class AppFX extends Application {
 
         Scene escena = new Scene(raiz, 1280, 780);
         escena.getStylesheets().add(getClass().getResource("estilos.css").toExternalForm());
-        ventana.setTitle("MakerLab EIA");
+        ventana.setTitle("MakerLab EIA · Laboratorios de fabricación");
         ventana.setMinWidth(1100);
         ventana.setMinHeight(680);
         ventana.setScene(escena);
@@ -63,15 +85,22 @@ public class AppFX extends Application {
     }
 
     private VBox barraLateral() {
-        Label marca = new Label("MakerLab EIA");
-        marca.getStyleClass().add("marca");
-        Label sub = new Label("Laboratorios de fabricación");
-        sub.getStyleClass().add("marca-sub");
-        VBox lateral = new VBox(marca, sub);
+        VBox lateral = new VBox();
         lateral.getStyleClass().add("lateral");
 
+        FontIcon logo = new FontIcon(MaterialDesignF.FACTORY);
+        logo.setIconSize(28);
+        logo.getStyleClass().add("lateral-logo");
+        Tooltip.install(logo, new Tooltip("MakerLab EIA\nLaboratorios de fabricación"));
+        VBox.setMargin(logo, new Insets(6, 0, 12, 0));
+        lateral.getChildren().add(logo);
+
         for (String nombre : vistas.keySet()) {
-            Button boton = new Button(nombre);
+            FontIcon icono = new FontIcon(ICONOS.get(nombre));
+            icono.setIconSize(24);
+            Button boton = new Button(nombre, icono);
+            boton.setContentDisplay(ContentDisplay.TOP);
+            boton.setGraphicTextGap(5);
             boton.getStyleClass().add("nav");
             boton.setMaxWidth(Double.MAX_VALUE);
             boton.setOnAction(e -> mostrar(nombre));
@@ -81,11 +110,12 @@ public class AppFX extends Application {
 
         Region espacio = new Region();
         VBox.setVgrow(espacio, Priority.ALWAYS);
-        String modo = Arranque.hayBaseDeDatos() ? "Datos en PostgreSQL" : "Datos en memoria (sin base de datos)";
-        Label estado = new Label(modo);
-        estado.getStyleClass().add("estado-datos");
-        estado.setMaxWidth(180);
-        estado.setTooltip(new Tooltip(mensajeArranque)); // el detalle aparece al pasar el mouse
+        boolean hayBase = Arranque.hayBaseDeDatos();
+        FontIcon estado = new FontIcon(hayBase ? MaterialDesignD.DATABASE_OUTLINE : MaterialDesignD.DATABASE_OFF_OUTLINE);
+        estado.setIconSize(22);
+        estado.getStyleClass().add(hayBase ? "estado-ok" : "estado-sin-base");
+        String modo = hayBase ? "Datos en PostgreSQL" : "Datos en memoria (sin base de datos)";
+        Tooltip.install(estado, new Tooltip(modo + "\n" + mensajeArranque)); // el detalle aparece al pasar el mouse
         lateral.getChildren().addAll(espacio, estado);
         return lateral;
     }

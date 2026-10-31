@@ -30,6 +30,22 @@
             <artifactId>javafx-controls</artifactId>
             <version>${javafx.version}</version>
         </dependency>
+        <!-- Tema visual (AtlantaFX) e íconos (Ikonli), como en la plantilla KickstartFX. -->
+        <dependency>
+            <groupId>io.github.mkpaz</groupId>
+            <artifactId>atlantafx-base</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-javafx</artifactId>
+            <version>12.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-materialdesign2-pack</artifactId>
+            <version>12.4.0</version>
+        </dependency>
         <!-- JUnit 5, solo para las pruebas. -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
