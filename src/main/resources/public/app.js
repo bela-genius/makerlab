@@ -564,20 +564,20 @@
     var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'grafico', role: 'img', 'aria-label': 'Horas de uso por tipo de equipo' });
     svg.append(el('rect', { x: izq, y: arr, width: ancho, height: alto, fill: '#fff' }));
     for (var v = 0; v <= tope + paso / 1000; v += paso) {
-      svg.append(el('line', { x1: izq, x2: izq + ancho, y1: y(v), y2: y(v), stroke: '#EEF2F5' }));
+      svg.append(el('line', { x1: izq, x2: izq + ancho, y1: y(v), y2: y(v), stroke: '#EAEEF2' }));
       svg.append(el('text', { x: izq - 8, y: y(v) + 4, 'text-anchor': 'end', class: 'grafico-eje' }, String(Math.round(v * 100) / 100)));
     }
     var n = Math.max(datos.length, 1), celda = ancho / n, grosor = Math.min(celda * 0.45, 90);
     datos.forEach(function (x, i) {
       var cx = izq + celda * i + celda / 2, top = y(x.horas);
-      svg.append(el('line', { x1: cx, x2: cx, y1: arr, y2: arr + alto, stroke: '#EEF2F5' }));
-      var barra = el('rect', { x: cx - grosor / 2, y: top, width: grosor, height: arr + alto - top, fill: '#12857A' });
+      svg.append(el('line', { x1: cx, x2: cx, y1: arr, y2: arr + alto, stroke: '#EAEEF2' }));
+      var barra = el('rect', { x: cx - grosor / 2, y: top, width: grosor, height: arr + alto - top, class: 'grafico-barra' });
       barra.append(el('title', {}, x.nombre + ': ' + x.horas + ' h'));
       svg.append(barra);
       svg.append(el('text', { x: cx, y: arr + alto + 20, 'text-anchor': 'middle', class: 'grafico-eje' }, x.nombre));
     });
-    svg.append(el('line', { x1: izq, x2: izq, y1: arr, y2: arr + alto, stroke: '#9AA7B4' }));
-    svg.append(el('line', { x1: izq, x2: izq + ancho, y1: arr + alto, y2: arr + alto, stroke: '#9AA7B4' }));
+    svg.append(el('line', { x1: izq, x2: izq, y1: arr, y2: arr + alto, stroke: '#8C959F' }));
+    svg.append(el('line', { x1: izq, x2: izq + ancho, y1: arr + alto, y2: arr + alto, stroke: '#8C959F' }));
     svg.append(el('text', { transform: 'translate(14 ' + (arr + alto / 2) + ') rotate(-90)', 'text-anchor': 'middle', class: 'grafico-eje' }, 'Horas de uso'));
     return svg;
   }
@@ -640,11 +640,24 @@
 
   // ============================================================ navegación
 
+  // Íconos Material Design (Pictogrammers, Apache 2.0): los mismos que usa la ventana JavaFX con Ikonli.
+  var ICONOS = {
+    inicio: 'M12 5.69L17 10.19V18H15V12H9V18H7V10.19L12 5.69M12 3L2 12H5V20H11V14H13V20H19V12H22',
+    usuarios: 'M12,5A3.5,3.5 0 0,0 8.5,8.5A3.5,3.5 0 0,0 12,12A3.5,3.5 0 0,0 15.5,8.5A3.5,3.5 0 0,0 12,5M12,7A1.5,1.5 0 0,1 13.5,8.5A1.5,1.5 0 0,1 12,10A1.5,1.5 0 0,1 10.5,8.5A1.5,1.5 0 0,1 12,7M5.5,8A2.5,2.5 0 0,0 3,10.5C3,11.44 3.53,12.25 4.29,12.68C4.65,12.88 5.06,13 5.5,13C5.94,13 6.35,12.88 6.71,12.68C7.08,12.47 7.39,12.17 7.62,11.81C6.89,10.86 6.5,9.7 6.5,8.5C6.5,8.41 6.5,8.31 6.5,8.22C6.2,8.08 5.86,8 5.5,8M18.5,8C18.14,8 17.8,8.08 17.5,8.22C17.5,8.31 17.5,8.41 17.5,8.5C17.5,9.7 17.11,10.86 16.38,11.81C16.5,12 16.63,12.15 16.78,12.3C16.94,12.45 17.1,12.58 17.29,12.68C17.65,12.88 18.06,13 18.5,13C18.94,13 19.35,12.88 19.71,12.68C20.47,12.25 21,11.44 21,10.5A2.5,2.5 0 0,0 18.5,8M12,14C9.66,14 5,15.17 5,17.5V19H19V17.5C19,15.17 14.34,14 12,14M4.71,14.55C2.78,14.78 0,15.76 0,17.5V19H3V17.07C3,16.06 3.69,15.22 4.71,14.55M19.29,14.55C20.31,15.22 21,16.06 21,17.07V19H24V17.5C24,15.76 21.22,14.78 19.29,14.55M12,16C13.53,16 15.24,16.5 16.23,17H7.77C8.76,16.5 10.47,16 12,16Z',
+    equipos: 'M19,6A1,1 0 0,0 20,5A1,1 0 0,0 19,4A1,1 0 0,0 18,5A1,1 0 0,0 19,6M19,2A3,3 0 0,1 22,5V11H18V7H6V11H2V5A3,3 0 0,1 5,2H19M18,18.25C18,18.63 17.79,18.96 17.47,19.13L12.57,21.82C12.4,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,21.82L6.53,19.13C6.21,18.96 6,18.63 6,18.25V13C6,12.62 6.21,12.29 6.53,12.12L11.43,9.68C11.59,9.56 11.79,9.5 12,9.5C12.21,9.5 12.4,9.56 12.57,9.68L17.47,12.12C17.79,12.29 18,12.62 18,13V18.25M12,11.65L9.04,13L12,14.6L14.96,13L12,11.65M8,17.66L11,19.29V16.33L8,14.71V17.66M16,17.66V14.71L13,16.33V19.29L16,17.66Z',
+    reservas: 'M7 11H9V13H7V11M21 5V19C21 20.11 20.11 21 19 21H5C3.89 21 3 20.1 3 19V5C3 3.9 3.9 3 5 3H6V1H8V3H16V1H18V3H19C20.11 3 21 3.9 21 5M5 7H19V5H5V7M19 19V9H5V19H19M15 13V11H17V13H15M11 13V11H13V13H11M7 15H9V17H7V15M15 17V15H17V17H15M11 17V15H13V17H11Z',
+    mantenimiento: 'M22.61,19L13.53,9.91C14.46,7.57 14,4.81 12.09,2.91C9.79,0.61 6.21,0.4 3.66,2.26L7.5,6.11L6.08,7.5L2.25,3.69C0.39,6.23 0.6,9.82 2.9,12.11C4.76,13.97 7.47,14.46 9.79,13.59L18.9,22.7C19.29,23.09 19.92,23.09 20.31,22.7L22.61,20.4C23,20 23,19.39 22.61,19M19.61,20.59L10.15,11.13C9.54,11.58 8.86,11.85 8.15,11.95C6.79,12.15 5.36,11.74 4.32,10.7C3.37,9.76 2.93,8.5 3,7.26L6.09,10.35L10.33,6.11L7.24,3C8.5,2.95 9.73,3.39 10.68,4.33C11.76,5.41 12.17,6.9 11.92,8.29C11.8,9 11.5,9.66 11.04,10.25L20.5,19.7L19.61,20.59Z',
+    indicadores: 'M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z'
+  };
+
   function pintarTabs() {
     var nav = document.getElementById('tabs');
     vaciar(nav);
     SECCIONES.forEach(function (s) {
-      var a = h('a', { class: 'tab', href: '#' + s[0], text: s[1] });
+      var a = h('a', { class: 'tab', href: '#' + s[0] });
+      // Solo cadenas fijas del propio código (ICONOS y SECCIONES), nunca datos del servidor.
+      a.innerHTML = '<svg class="tab-icono" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">' +
+        '<path d="' + (ICONOS[s[0]] || '') + '"/></svg><span>' + s[1] + '</span>';
       if (s[0] === seccionActual) { a.setAttribute('aria-current', 'page'); }
       nav.append(a);
     });

@@ -265,6 +265,8 @@ public class ServidorWeb implements HttpHandler {
             return "text/javascript; charset=utf-8";
         } else if (r.endsWith(".svg")) {
             return "image/svg+xml";
+        } else if (r.endsWith(".ttf")) {
+            return "font/ttf";
         } else if (r.endsWith(".png")) {
             return "image/png";
         } else if (r.endsWith(".ico")) {
