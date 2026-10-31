@@ -14,7 +14,7 @@
   --ambar: #9A5B00;      --ambar-fondo: #FCEFD9;
   --rojo: #B42323;       --rojo-fondo: #FBE3E3;
   --gris-fondo: #ECEEF1;
-  --radio: 12px;
+  --radio: 8px;
   --sombra: 0 1px 2px rgba(31, 45, 61, .06), 0 2px 8px rgba(31, 45, 61, .05);
   color-scheme: light;
 }
@@ -36,8 +36,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
 /* ---------- Barra superior ---------- */
 .barra {
   position: sticky; top: 0; z-index: 20;
-  background: var(--tinta);
-  color: #fff;
+  background: #fff;
+  color: var(--tinta);
+  border-bottom: 1px solid var(--linea);
   padding-top: env(safe-area-inset-top);
 }
 .barra-fila {
@@ -47,16 +48,16 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .marca { display: flex; align-items: center; gap: 10px; min-width: 0; }
 .marca img { border-radius: 8px; flex: none; }
 .marca-nombre { font-weight: 700; font-size: 18px; line-height: 1.15; }
-.marca-sub { color: #9FB0C2; font-size: 12px; }
+.marca-sub { color: var(--tinta-suave); font-size: 12px; }
 .estado-datos {
   flex: none;
   font-size: 11px; font-weight: 700; letter-spacing: .02em;
   padding: 4px 10px; border-radius: 999px;
-  background: #2B3C50; color: #C9D4DF;
+  background: var(--gris-fondo); color: var(--tinta-suave);
 }
-.estado-datos.ok { background: #1B5E57; color: #D6F5F1; }
-.estado-datos.ok::before { content: "● "; color: #5FE0D1; }
-.estado-datos.mal { background: #7A2323; color: #FFE0E0; }
+.estado-datos.ok { background: var(--verde-fondo); color: var(--verde); }
+.estado-datos.ok::before { content: "● "; }
+.estado-datos.mal { background: var(--rojo-fondo); color: var(--rojo); }
 
 .tabs {
   display: flex; gap: 4px;
@@ -69,12 +70,13 @@ button, input, select, textarea { font: inherit; color: inherit; }
   flex: none; scroll-snap-align: center;
   min-height: 40px; padding: 8px 14px;
   border: 0; border-radius: 999px;
-  background: transparent; color: #C9D4DF;
+  background: transparent; color: var(--tinta-suave);
   font-size: 15px; cursor: pointer;
-  text-decoration: none; display: inline-flex; align-items: center;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
 }
-.tab:hover { background: #2B3C50; color: #fff; }
-.tab[aria-current="page"] { background: var(--acento); color: #fff; font-weight: 700; }
+.tab-icono { flex: none; width: 20px; height: 20px; }
+.tab:hover { background: var(--gris-fondo); color: var(--tinta); }
+.tab[aria-current="page"] { background: var(--acento-claro); color: var(--acento); font-weight: 700; }
 
 /* ---------- Contenido ---------- */
 .vista { max-width: 960px; margin: 0 auto; padding: 16px; outline: none; }
@@ -255,4 +257,36 @@ input[type="checkbox"] { width: 22px; min-height: 22px; height: 22px; accent-col
 @media (min-width: 820px) {
   .vista { padding: 24px; }
   .avisos { top: 108px; }
+}
+
+/* ---------- Pantallas anchas: barra lateral de íconos (como la ventana JavaFX) ---------- */
+@media (min-width: 820px) {
+  body { padding-left: 92px; }
+  .barra {
+    position: fixed; top: 0; bottom: 0; left: 0; width: 92px; z-index: 20;
+    display: flex; flex-direction: column; align-items: stretch;
+    background: #FBFBFC; border-bottom: 0; border-right: 1px solid var(--linea);
+    padding: 20px 0 16px;
+  }
+  .barra-fila { display: contents; }
+  .marca { order: 1; justify-content: center; margin-bottom: 14px; }
+  .marca img { width: 32px; height: 32px; }
+  .marca-nombre, .marca-sub { display: none; }
+  .tabs {
+    order: 2; flex-direction: column; gap: 0; overflow: visible; padding: 0;
+  }
+  .tab {
+    flex-direction: column; justify-content: center; gap: 6px;
+    min-height: 64px; padding: 12px 4px; border-radius: 0;
+    font-size: 11px; text-align: center; line-height: 1.15;
+  }
+  .tab-icono { width: 24px; height: 24px; }
+  .tab[aria-current="page"] { box-shadow: inset 3px 0 0 var(--acento); }
+  .estado-datos {
+    order: 3; margin: auto 8px 0; text-align: center;
+    font-size: 10px; padding: 4px 6px; word-break: break-word;
+  }
+  .avisos { top: 12px; }
+  .vista { max-width: 1240px; }
+  .pie { max-width: 1240px; }
 }
