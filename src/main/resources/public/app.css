@@ -1,19 +1,25 @@
-/* MakerLab EIA web. Misma paleta que la interfaz JavaFX (estilos.css):
-   tinta #1F2D3D, fondo #EEF2F5, acento #12857A (color de filamento), línea #D5DCE3. */
+/* MakerLab EIA web. Misma apariencia que la interfaz JavaFX (plantilla KickstartFX):
+   tipografía Inter y paleta del tema AtlantaFX "Primer Light". */
+@font-face {
+  font-family: "Inter";
+  src: url("/Inter-Regular.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+}
 :root {
-  --tinta: #1F2D3D;
-  --tinta-suave: #5B6B7C;
-  --fondo: #EEF2F5;
+  --tinta: #1F2328;
+  --tinta-suave: #656D76;
+  --fondo: #F6F8FA;
   --superficie: #FFFFFF;
-  --acento: #12857A;
-  --acento-oscuro: #0E6F66;
-  --acento-claro: #E2F3F1;
-  --linea: #D5DCE3;
-  --linea-fuerte: #C9D2DC;
-  --verde: #2E7D32;      --verde-fondo: #E3F2E5;
-  --ambar: #9A5B00;      --ambar-fondo: #FCEFD9;
-  --rojo: #B42323;       --rojo-fondo: #FBE3E3;
-  --gris-fondo: #ECEEF1;
+  --acento: #0969DA;
+  --acento-oscuro: #0550AE;
+  --acento-claro: #DDF4FF;
+  --linea: #D0D7DE;
+  --linea-fuerte: #D0D7DE;
+  --verde: #1A7F37;      --verde-fondo: #DAFBE1;
+  --ambar: #9A6700;      --ambar-fondo: #FFF8C5;
+  --rojo: #CF222E;       --rojo-fondo: #FFEBE9;
+  --gris-fondo: #EAEEF2;
   --radio: 8px;
   --sombra: 0 1px 2px rgba(31, 45, 61, .06), 0 2px 8px rgba(31, 45, 61, .05);
   color-scheme: light;
@@ -25,7 +31,7 @@ body {
   margin: 0;
   background: var(--fondo);
   color: var(--tinta);
-  font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font: 16px/1.45 "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   min-height: 100vh;
   padding-bottom: env(safe-area-inset-bottom);
 }
@@ -168,7 +174,7 @@ input, select, textarea {
   font-size: 16px; /* 16px evita el zoom automático de iOS */
 }
 input:focus-visible, select:focus-visible, textarea:focus-visible, .boton:focus-visible, .tab:focus-visible, summary:focus-visible {
-  outline: 3px solid #12857A55; outline-offset: 1px; border-color: var(--acento);
+  outline: 3px solid #0969DA55; outline-offset: 1px; border-color: var(--acento);
 }
 input[type="checkbox"] { width: 22px; min-height: 22px; height: 22px; accent-color: var(--acento); }
 .casilla { display: flex; align-items: center; gap: 10px; min-height: 44px; }
@@ -232,6 +238,7 @@ input[type="checkbox"] { width: 22px; min-height: 22px; height: 22px; accent-col
 /* ---------- Indicadores ---------- */
 .grafico { width: 100%; height: auto; display: block; }
 .grafico-eje { font-size: 12px; fill: var(--tinta-suave); }
+.grafico-barra { fill: var(--acento); }
 .barras { display: grid; gap: 12px; }
 .barra-dato { display: grid; gap: 4px; }
 .barra-dato-cab { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; }
